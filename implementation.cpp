@@ -21,7 +21,7 @@ restaurant::restaurant(std::ifstream& restFile){
       restFile >> close;
       if(open != "" && close != ""){
         storeHours[day] = open + "-" + close;
-        cout << "storeHours[" << day << "] = " << storeHours[day] << endl;
+        // cout << "storeHours[" << day << "] = " << storeHours[day] << endl;
       }
     }
   }
@@ -64,24 +64,30 @@ employee::employee(){
   restaurant* restaurantName;
 }
 
+void employee::setRestaurant(restaurant x){
+  restaurant* pointer;
+  pointer = &x;
+  restaurantName = pointer;
+}
+
+string employee::getRestaurantName(){
+  return restaurantName->getName();
+}
+
 int main(){
   ifstream file;
   file.open("/Users/ryandirezze/Documents/OSU/CS_162_old2/Assignment_2/restaurant_info.txt");
-  restaurant a = restaurant(file);
-  // a.setName(file);
-  cout << a.getName() << endl;
-  cout << a.getPhone() << endl;
-  cout << a.getAddress() << endl;
-  cout << a.getDaysOpen() << endl;
-  // cout << a.getHours() << endl;
-  std::map<char, string> b = a.getHours();
-  cout << "b['S'] = " << b['S'] << endl;
-  cout << b['M'] << endl;
-  cout << b['T'] << endl;
-  cout << b['W'] << endl;
-  cout << b['R'] << endl;
-  cout << b['F'] << endl;
-  cout << b['X'] << endl;
+  restaurant Bytes = restaurant(file);
+  // Bytes.setName(file);
+  cout << Bytes.getName() << endl;
+  cout << Bytes.getPhone() << endl;
+  cout << Bytes.getAddress() << endl;
+  cout << Bytes.getDaysOpen() << endl;
+
+  employee ryan = employee();
+  // ryan.updateHours(Bytes);
+  ryan.setRestaurant(Bytes);
+  cout << ryan.getRestaurantName() << endl;
 
   return 0;
 }

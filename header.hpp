@@ -46,5 +46,8 @@ public:
   std::string getLast();
   void setPass(std::ifstream);
   std::string getPass();
+  void setRestaurant(restaurant);
+  std::string getRestaurantName();
+  void updateHours(restaurant);
 };
 #endif
