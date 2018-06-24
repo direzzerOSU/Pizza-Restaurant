@@ -8,6 +8,50 @@ using std::cout;
 using std::endl;
 using std::cin;
 
+// //###########################################################
+// // function prototypes                                    //#
+// void welcomeScreen();                                     //#
+// restaurant::restaurant(std::ifstream& restFile);          //#
+// void restaurant::setName(ifstream file);                  //#
+// string restaurant::getName();                             //#
+// string restaurant::getPhone();                            //#
+// string restaurant::getAddress();                          //#
+// int restaurant::getDaysOpen();                            //#
+// std::map<char, string> restaurant::getHours();            //#
+// employee::employee();                                     //#
+// void employee::setRestaurant(restaurant x);               //#
+// string employee::getRestaurantName();                     //#
+// void employee::updateHours(std::map<char, string> hours); //#
+// //###########################################################
+
+void welcomeScreen(){
+ cout << "\nWelcome to DiGiorno's Pizza!" << endl;
+ cout << "Are you a customer (C) or an employee (E)? Or would you like to quite (Q)?" << endl;
+ char menuSelection;
+ while(toupper(menuSelection) != 'Q' && toupper(menuSelection) != 'E' && toupper(menuSelection) != 'C'){
+   cin >> menuSelection;
+   if(toupper(menuSelection) == 'E'){
+     // cout << "What would you like to do?" << endl;
+     // cout << "\n  1. Change hours\n  2. View orders\n  3. Remove order\n  4. Add item to menu\n  5. Remove item from menu" << endl;
+     // char toDo = '';
+     // cin >> toDo;
+     // if(toDo == '1'){
+     //   updateHours();
+     // }
+   }
+   else if(toupper(menuSelection) == 'C'){
+     // initiate customer function
+   }
+   else if(toupper(menuSelection) == 'Q'){
+     // terminate program
+     break;
+   }
+   else{
+     cout << "Whoops! That is not a valid option... Please try again." << endl;
+   }
+ }
+}
+
 restaurant::restaurant(std::ifstream& restFile){
   if(restFile){
     getline(restFile, name);
@@ -55,7 +99,14 @@ int restaurant::getDaysOpen(){
 }
 
 std::map<char, string> restaurant::getHours(){
+  // std::map<char, std::string> *pointer = &storeHours;
+  // pointer = &storeHours;
+  // return pointer;
   return storeHours;
+}
+
+void restaurant::setHours(char a, string s){
+  storeHours[a] = s;
 }
 
 employee::employee(){
@@ -98,22 +149,24 @@ void employee::updateHours(std::map<char, string> hours){
   string inputHours;
   cin.ignore(256, '\n');  // ignore some chars until line feed is reached
   getline(cin, inputHours);
-  hours[input] = inputHours;
+  // restaurantName->storeHours[input] = inputHours;
+  restaurantName->setHours(input, inputHours);
 
   // cout << hours[input] << endl;
 }
 
 int main(){
-  ifstream file;
-  file.open("/Users/ryandirezze/Documents/OSU/CS_162_old2/Assignment_2/restaurant_info.txt");
-  restaurant Bytes = restaurant(file);
+ welcomeScreen();
+ ifstream file;
+ file.open("/Users/ryandirezze/Documents/OSU/CS_162_old2/Assignment_2/restaurant_info.txt");
+ restaurant Bytes = restaurant(file);
 
-  employee ryan = employee();
-  ryan.setRestaurant(Bytes);
-  // cout << ryan.getRestaurantName() << endl;
-  // auto a = Bytes.getHours();
-  ryan.updateHours(Bytes.getHours());
-  // cout << a['S'] << endl;
+ employee ryan = employee();
+ ryan.setRestaurant(Bytes);
+ // cout << ryan.getRestaurantName() << endl;
+ ryan.updateHours(Bytes.getHours());
+ auto a = Bytes.getHours();
+ cout << a['S'] << endl;
 
-  return 0;
+ return 0;
 }

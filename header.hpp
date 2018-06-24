@@ -25,7 +25,7 @@ public:
   std::string getAddress();
   void setDaysOpen(std::ifstream);
   int getDaysOpen();
-  void setHours();
+  void setHours(char, std::string);
   std::map<char, std::string> getHours();
 };
 

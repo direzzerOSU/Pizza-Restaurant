@@ -13,42 +13,24 @@
 
 #include<iostream>
 #include<string>
+#include "implementation.cpp"
 
 using std::cout;
 using std::cin;
 using std::endl;
 
-// prototypes
-void welcomeScreen();
-
-void welcomeScreen(){
- cout << "\nWelcome to DiGiorno's Pizza!" << endl;
- cout << "Are you a customer (C) or an employee (E)? Or would you like to quite (Q)?" << endl;
- char menuSelection;
- while(menuSelection != 'Q'){
-   cin >> menuSelection;
-   if(islower(menuSelection)){
-     menuSelection = toupper(menuSelection);
-   }
-
-   if(menuSelection == 'E'){
-     // initiate employee function
-   }
-   else if(menuSelection == 'C'){
-     // initiate customer function
-   }
-   else if(menuSelection == 'Q'){
-     // terminate program
-     break;
-   }
-   else{
-     cout << "Whoops! That is not a valid option... Please try again." << endl;
-   }
- }
-}
-
 int main(){
  welcomeScreen();
+ ifstream file;
+ file.open("/Users/ryandirezze/Documents/OSU/CS_162_old2/Assignment_2/restaurant_info.txt");
+ restaurant Bytes = restaurant(file);
+
+ employee ryan = employee();
+ ryan.setRestaurant(Bytes);
+ // cout << ryan.getRestaurantName() << endl;
+ auto a = Bytes.getHours();
+ ryan.updateHours(Bytes.getHours());
+ cout << a['S'] << endl;
 
  return 0;
 }
