@@ -25,7 +25,7 @@ public:
   std::string getAddress();
   void setDaysOpen(std::ifstream);
   int getDaysOpen();
-  void setHours(std::ifstream);
+  void setHours();
   std::map<char, std::string> getHours();
 };
 
@@ -48,6 +48,6 @@ public:
   std::string getPass();
   void setRestaurant(restaurant);
   std::string getRestaurantName();
-  void updateHours(restaurant);
+  void updateHours(std::map<char, std::string> hours);
 };
 #endif
