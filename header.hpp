@@ -61,8 +61,11 @@ private:
 public:
   // need to include accessor and mutator functions for each private member
   // need to include constructors, copy constructors, assignment operator overload, and destructors where appropriate
+  void welcomeScreen();
   void load_data(); // reads from files to correctly populate menu, employees, hours, etc.
-  bool login(std::string id, std::string password);
+  bool login(std::string id, std::string password); // NOTE: incomplete; doesn't register correct login credentials
+  void create_employees();
+  employee getEmployees();
   void view_menu();
   void view_hours();
   void view_address();
