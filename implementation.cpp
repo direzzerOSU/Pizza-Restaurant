@@ -44,7 +44,8 @@ void Restaurant::welcomeScreen(){
      break;
    }
    else{
-     cout << "Whoops! That is not a valid option... Please try again." << endl;
+     cout << endl << "Whoops! That is not a valid option... Please try again." << endl << endl;
+     cout << "Are you a customer (C) or an employee (E)? Or would you like to quite (Q)?" << endl;
    }
  }
 }
@@ -72,43 +73,37 @@ void Restaurant::load_data(){
 
 bool Restaurant::login(std::string id, std::string password){
   bool status = false;
-  if(employees->id == id && employees->password == password){
-    cout << "Login successful..." << endl << endl;
-    status = true;
-    return status;
-  }
-  else{
-    cout << "Login failed... Please try again." << endl << endl;
-    return status;
-  }
-}
-
-void Restaurant::create_employees(){
-  ifstream employee1;
-  employee1.open("/Users/ryandirezze/Documents/GitHub/Pizza-Restaurant/employee.txt");
   int count = 0;
-  if(employee1){
-    while(employee1){
-      string a;
-      std::getline(employee1, a, '\n');
-      // cout << a << endl;
-      if(a != ""){
+  while(status == false){
+    if(employees[count].id == "" && employees[count].password == ""){
+      cout << "Login failed... Please try again." << endl << endl;
+      return status;
+    }
+    else{
+      if(employees[count].id == id && employees[count].password == password){
+        cout << "Login successful..." << endl << endl;
+        status = true;
+        return status;
+      }
+      else{
         count++;
-        // cout << count << endl;
       }
     }
-    employee1.close();
   }
-  employees = new struct employee[count];
+  cout << "Error... Should not be here..." << endl;
+  return status;
+}
+
+void Restaurant::create_employees(int num){
+  employees = new employee[num];
   string line = "";
   ifstream employee;
   std::stringstream linestream(line);
   employee.open("/Users/ryandirezze/Documents/GitHub/Pizza-Restaurant/employee.txt");
   if(employee){
-    // while(employee.good()){
-    for(int n=0; n<count; n++){
-      employee >> employees[count].id >> employees[count].first_name >> employees[count].last_name >> employees[count].password;
-      // cout << employees[count].id << " " << employees[count].first_name << " " << employees[count].last_name << " " << employees[count].password << endl;
+    for(int n=0; n<num; n++){
+      employee >> employees[n].id >> employees[n].first_name >> employees[n].last_name >> employees[n].password;
+      // cout << employees[n].id << " " << employees[n].first_name << " " << employees[n].last_name << " " << employees[n].password << endl;
     }
     employee.close();
   }
@@ -117,11 +112,11 @@ void Restaurant::create_employees(){
   }
 }
 
-// employee Restaurant::getEmployees(){
-//   for(int n=0; n<3; n++){
-//     cout << employees->id << endl;
-//   }
-// }
+void Restaurant::getEmployees(){
+  for(int n=0; n<3; n++){
+    cout << employees[n].id << " " << employees[n].first_name << " " << employees[n].last_name << " " << employees[n].password << endl;
+  }
+}
 
 void Restaurant::view_hours(){
   for(int n=0; n<7; n++){
@@ -129,15 +124,72 @@ void Restaurant::view_hours(){
   }
 }
 
-// void view_menu(){
-//   ifstream menu;
-//   menu.open("/Users/ryandirezze/Documents/GitHub/Pizza-Restaurant/menu.txt")
-//   if(menu){
-//     while(menu){
-//
-//     }
-//   }
-// }
+int get_numEmployees(){
+  ifstream employee1;
+  employee1.open("/Users/ryandirezze/Documents/GitHub/Pizza-Restaurant/employee.txt");
+  int count = 0;
+  if(employee1){
+    while(employee1){
+      string a;
+      std::getline(employee1, a, '\n');
+      if(a != ""){
+        count++;
+      }
+    }
+    employee1.close();
+  }
+  return count;
+}
+
+void Menu::menu_from_file(int num){   // NOTE: must use setters to access Pizzas private members
+  pizzas = new Pizza[num];
+  ifstream menu;
+  menu.open("/Users/ryandirezze/Documents/GitHub/Pizza-Restaurant/menu.txt");
+  if(menu){
+    string line = "";
+    int counter = 0;
+    std::stringstream linestream(line);
+    while(menu){
+      getline(menu, line);
+      linestream >> pizzas[counter].setName(); //>> pizzas[counter].small_cost >> pizzas[counter].medium_cost >> pizzas[counter].large_cost >> pizzas[counter].num_ingredients << endl;
+      // for(int n=0; n<pizzas[counter].num_ingredients; n++){
+      //   linestream >> pizzas[counter].ingredients[n];
+      }
+      counter++;
+    }
+  }
+}
+
+int Menu::numPizzas(){
+  ifstream menu;
+  menu.open("/Users/ryandirezze/Documents/GitHub/Pizza-Restaurant/menu.txt");
+  if(menu){
+    string line = "";
+    counter = 0;
+    while(menu){
+      getline(menu, line);
+      counter++;
+    }
+  }
+  return counter;
+}
+
+int Menu::printMenu(){
+  for(int n=0; n<numPizzas(); n++){
+    cout << pizzas[counter].getName(); //<< " " << pizzas[counter].small_cost << " " << pizzas[counter].medium_cost << " " << pizzas[counter].large_cost << " " << pizzas[counter].num_ingredients;
+    // for(int n=0; n<pizzas[counter].num_ingredients; n++){
+    //   cout << pizzas[counter].ingredients[n] << " ";
+    }
+  }
+}
+
+void Pizza::setName(std::string x){
+  name = x;
+}
+
+string Pizza::getName(){
+  return name;
+}
 
 int main(){
   Restaurant Bytes;
@@ -146,9 +198,14 @@ int main(){
 
   // test Login
   // employee ryandirezze =
-  Bytes.create_employees();
-  Bytes.welcomeScreen();
+  // Bytes.create_employees(get_numEmployees());
+  // Bytes.getEmployees();
+  // Bytes.welcomeScreen();
   // Bytes.login("3333", "Fringe");
+
+  // test Menu / pizzas
+  menu_from_file();
+  printMenu();
 
   return 0;
 }
