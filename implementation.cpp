@@ -141,45 +141,55 @@ int get_numEmployees(){
   return count;
 }
 
-void Menu::menu_from_file(int num){   // NOTE: must use setters to access Pizzas private members
-  pizzas = new Pizza[num];
+void Pizza::getPizza(std::ifstream& menuFile, int numberPizzas, Pizza* pizzas){
+  menuFile >> name >> small_cost >> medium_cost >> large_cost >> num_ingredients;
+  cout << name << " " << small_cost << " " << medium_cost << " " << large_cost << " " << num_ingredients << " ";
+  ingredients = new string[num_ingredients];
+  for(int i=0; i<num_ingredients; i++){
+    menuFile >> ingredients[i];
+    cout << ingredients[i] << " ";
+  }
+  cout << endl;
+}
+
+void Menu::menu_from_file(){
+  pizzas = new Pizza[numPizzas()];
   ifstream menu;
   menu.open("/Users/ryandirezze/Documents/GitHub/Pizza-Restaurant/menu.txt");
   if(menu){
-    string line = "";
-    int counter = 0;
-    std::stringstream linestream(line);
-    while(menu){
-      getline(menu, line);
-      linestream >> pizzas[counter].setName(); //>> pizzas[counter].small_cost >> pizzas[counter].medium_cost >> pizzas[counter].large_cost >> pizzas[counter].num_ingredients << endl;
-      // for(int n=0; n<pizzas[counter].num_ingredients; n++){
-      //   linestream >> pizzas[counter].ingredients[n];
-      }
-      counter++;
+    for(int n=0; n<num_pizzas; n++){
+      pizzas[n].getPizza(menu, num_pizzas, pizzas);
     }
+  }
+  else{
+    cout << "Uh oh! File was unable to open..." << endl;
   }
 }
 
 int Menu::numPizzas(){
   ifstream menu;
   menu.open("/Users/ryandirezze/Documents/GitHub/Pizza-Restaurant/menu.txt");
+  int counter = 0;
   if(menu){
     string line = "";
-    counter = 0;
     while(menu){
       getline(menu, line);
-      counter++;
+      if(line != ""){
+        counter++;
+      }
     }
   }
-  return counter;
+  num_pizzas = counter;
+  return counter;    // use this if returning an int value
 }
 
-int Menu::printMenu(){
-  for(int n=0; n<numPizzas(); n++){
-    cout << pizzas[counter].getName(); //<< " " << pizzas[counter].small_cost << " " << pizzas[counter].medium_cost << " " << pizzas[counter].large_cost << " " << pizzas[counter].num_ingredients;
+void Menu::printMenu(){
+  menu_from_file();
+  for(int n=0; n<num_pizzas; n++){
+    cout << pizzas[n].getName();//<< " " << pizzas[counter].small_cost << " " << pizzas[counter].medium_cost << " " << pizzas[counter].large_cost << " " << pizzas[counter].num_ingredients;
     // for(int n=0; n<pizzas[counter].num_ingredients; n++){
     //   cout << pizzas[counter].ingredients[n] << " ";
-    }
+    // }
   }
 }
 
@@ -204,8 +214,9 @@ int main(){
   // Bytes.login("3333", "Fringe");
 
   // test Menu / pizzas
-  menu_from_file();
-  printMenu();
+  Menu restaurantMenu;
+  restaurantMenu.menu_from_file();
+  // restaurantMenu.printMenu();
 
   return 0;
 }

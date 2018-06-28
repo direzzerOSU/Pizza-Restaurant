@@ -33,8 +33,10 @@ private:
 public:
   // need to include accessor and mutator functions for each private member
   // need to include constructors, copy constructors, assignment operator overload, and destructors where appropriate
-  void setName();
+  // Pizza getPizza();
+  void setName(std::string);
   std::string getName();
+  void getPizza(std::ifstream&, int, Pizza*);
   void setSmallCost();
   void setMediumCost();
   void setLargeCost();
@@ -50,8 +52,8 @@ private:
 public:
   // need to include accessor and mutator functions for each private member
   // need to include constructors, copy constructors, assignment operator overload, and destructors where appropriate
-  int numPizzas();
-  void menu_from_file(int num);
+  int numPizzas();   // can also be modified to return an int = numPizzas
+  void menu_from_file(); // same as below (getPizza())
   void printMenu();
   Menu search_pizza_by_cost(int upper_bound, std::string size);
   Menu search_pizza_by_ingredients_to_include(std::string* ingredients, int num_ingredients);
@@ -61,7 +63,8 @@ public:
 
 class Restaurant{
 private:
-  Menu menu;
+  Menu menu;  // should this be a pointer?
+  // Menu* menu;  // this would be my choice is used; non-pointer was used in the assignment instructions
   employee* employees;
   hours* week;
   std::string name;
@@ -73,7 +76,7 @@ public:
   // need to include constructors, copy constructors, assignment operator overload, and destructors where appropriate
   void welcomeScreen();
   void load_data(); // reads from files to correctly populate menu, employees, hours, etc.
-  bool login(std::string id, std::string password); // NOTE: incomplete; doesn't register correct login credentials
+  bool login(std::string id, std::string password);
   void create_employees(int num);
   void getEmployees();
   void view_menu();
