@@ -1,4 +1,4 @@
-#include "header.hpp"
+#include "header.h"
 #include<cctype>
 #include<locale>
 #include<sstream>
@@ -29,12 +29,13 @@ void Restaurant::welcomeScreen(){
        cout << endl;
        valid = login(id, password);
      }
-     // cout << "What would you like to do?" << endl;
-     // cout << "\n  1. Change hours\n  2. View orders\n  3. Remove order\n  4. Add item to menu\n  5. Remove item from menu" << endl;
-     // char toDo = '';
-     // cin >> toDo;
-     // if(toDo == '1'){
-     //   updateHours();
+     cout << "What would you like to do? (Please enter the appropriate number)" << endl;
+     cout << "\n  1. Change hours\n  2. View orders\n  3. Remove order\n  4. Add item to menu\n  5. Remove item from menu" << endl << endl;
+     char toDo;
+     cin >> toDo;
+     if(toDo == '1'){
+       // updateHours();
+     }
    }
    else if(toupper(menuSelection) == 'C'){
      cout << "Welcome, valued customer!" << endl;
@@ -50,9 +51,9 @@ void Restaurant::welcomeScreen(){
  }
 }
 
-void Restaurant::load_data(){
+void Restaurant::hours_from_file(){   // NOTE: needs to be modified to load (data): menu, employees, hours
   ifstream restaurant_info;
-  restaurant_info.open("/Users/ryandirezze/Documents/OSU/CS_162_old2/Assignment_2/restaurant_info.txt");
+  restaurant_info.open("/Users/ryandirezze/Documents/GitHub/Pizza-Restaurant/restaurant_info.txt");
   if(restaurant_info){
     getline(restaurant_info, name);
     getline(restaurant_info, phone);
@@ -69,6 +70,13 @@ void Restaurant::load_data(){
   else{
     cout << "Unable to open file... Please try again." << endl;
   }
+}
+
+// load_data() with menu, employees & hours
+void Restaurant::load_data(){   // NOTE: needs to be modified to load (data): menu, employees, hours
+  hours_from_file();
+  employees_from_file(get_numEmployees());
+  menu.menu_from_file();
 }
 
 bool Restaurant::login(std::string id, std::string password){
@@ -94,7 +102,7 @@ bool Restaurant::login(std::string id, std::string password){
   return status;
 }
 
-void Restaurant::create_employees(int num){
+void Restaurant::employees_from_file(int num){
   employees = new employee[num];
   string line = "";
   ifstream employee;
@@ -124,7 +132,7 @@ void Restaurant::view_hours(){
   }
 }
 
-int get_numEmployees(){
+int Restaurant::get_numEmployees(){
   ifstream employee1;
   employee1.open("/Users/ryandirezze/Documents/GitHub/Pizza-Restaurant/employee.txt");
   int count = 0;
@@ -143,27 +151,29 @@ int get_numEmployees(){
 
 void Pizza::getPizza(std::ifstream& menuFile, int numberPizzas, Pizza* pizzas){
   menuFile >> name >> small_cost >> medium_cost >> large_cost >> num_ingredients;
-  cout << name << " " << small_cost << " " << medium_cost << " " << large_cost << " " << num_ingredients << " ";
+  // cout << endl << name << " " << small_cost << " " << medium_cost << " " << large_cost << " " << num_ingredients << " ";
   ingredients = new string[num_ingredients];
   for(int i=0; i<num_ingredients; i++){
     menuFile >> ingredients[i];
-    cout << ingredients[i] << " ";
+    // cout << ingredients[i] << " ";
   }
-  cout << endl;
+  // cout << endl << endl;
 }
 
 void Menu::menu_from_file(){
-  pizzas = new Pizza[numPizzas()];
-  ifstream menu;
-  menu.open("/Users/ryandirezze/Documents/GitHub/Pizza-Restaurant/menu.txt");
-  if(menu){
+  num_pizzas = numPizzas();
+  pizzas = new Pizza[num_pizzas];
+  ifstream menuFile;
+  menuFile.open("/Users/ryandirezze/Documents/GitHub/Pizza-Restaurant/menu.txt");
+  if(menuFile){
     for(int n=0; n<num_pizzas; n++){
-      pizzas[n].getPizza(menu, num_pizzas, pizzas);
+      pizzas[n].getPizza(menuFile, num_pizzas, pizzas);
     }
   }
   else{
     cout << "Uh oh! File was unable to open..." << endl;
   }
+  // return pizzas;
 }
 
 int Menu::numPizzas(){
@@ -179,7 +189,7 @@ int Menu::numPizzas(){
       }
     }
   }
-  num_pizzas = counter;
+  // num_pizzas = counter;
   return counter;    // use this if returning an int value
 }
 
@@ -201,22 +211,20 @@ string Pizza::getName(){
   return name;
 }
 
+// void Restaurant::setMenu(Pizza a){
+//   pizzas = a;
+// }
+
 int main(){
   Restaurant Bytes;
   Bytes.load_data();
-  // Bytes.view_hours();
 
   // test Login
   // employee ryandirezze =
   // Bytes.create_employees(get_numEmployees());
   // Bytes.getEmployees();
-  // Bytes.welcomeScreen();
+  Bytes.welcomeScreen();
   // Bytes.login("3333", "Fringe");
-
-  // test Menu / pizzas
-  Menu restaurantMenu;
-  restaurantMenu.menu_from_file();
-  // restaurantMenu.printMenu();
 
   return 0;
 }

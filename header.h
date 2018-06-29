@@ -52,8 +52,8 @@ private:
 public:
   // need to include accessor and mutator functions for each private member
   // need to include constructors, copy constructors, assignment operator overload, and destructors where appropriate
-  int numPizzas();   // can also be modified to return an int = numPizzas
-  void menu_from_file(); // same as below (getPizza())
+  int numPizzas();
+  void menu_from_file();
   void printMenu();
   Menu search_pizza_by_cost(int upper_bound, std::string size);
   Menu search_pizza_by_ingredients_to_include(std::string* ingredients, int num_ingredients);
@@ -76,9 +76,12 @@ public:
   // need to include constructors, copy constructors, assignment operator overload, and destructors where appropriate
   void welcomeScreen();
   void load_data(); // reads from files to correctly populate menu, employees, hours, etc.
+  void employees_from_file(int num);
+  void hours_from_file();
   bool login(std::string id, std::string password);
-  void create_employees(int num);
+  int get_numEmployees();
   void getEmployees();
+  // void setMenu();
   void view_menu();
   void view_hours();
   void view_address();
