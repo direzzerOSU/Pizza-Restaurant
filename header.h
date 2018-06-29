@@ -74,14 +74,28 @@ private:
 public:
   // need to include accessor and mutator functions for each private member
   // need to include constructors, copy constructors, assignment operator overload, and destructors where appropriate
+
+  // welcome screen (starting screen)
   void welcomeScreen();
+
+  // loads all required data from files
   void load_data(); // reads from files to correctly populate menu, employees, hours, etc.
   void employees_from_file(int num);
   void hours_from_file();
-  bool login(std::string id, std::string password);
   int get_numEmployees();
+
+  // employee login
+  bool login(std::string id, std::string password);
   void getEmployees();
-  // void setMenu();
+
+  // employee: make changes
+  void change_hours();
+  hours getHours();   // non-standard
+  void add_to_menu();
+  void remove_from_menu();
+  void view_orders();
+  void remove_orders();
+
   void view_menu();
   void view_hours();
   void view_address();
@@ -89,10 +103,5 @@ public:
   void search_menu_by_price();
   void search_by_ingredients();
   void place_order(Pizza* selection);
-  void change_hours();
-  void add_to_menu();
-  void remove_from_menu();
-  void view_orders();
-  void remove_orders();
 };
 #endif

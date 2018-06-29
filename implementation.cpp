@@ -126,12 +126,6 @@ void Restaurant::getEmployees(){
   }
 }
 
-void Restaurant::view_hours(){
-  for(int n=0; n<7; n++){
-    cout << week[n].day << " " << week[n].open_hour << " " << week[n].close_hour << endl;
-  }
-}
-
 int Restaurant::get_numEmployees(){
   ifstream employee1;
   employee1.open("/Users/ryandirezze/Documents/GitHub/Pizza-Restaurant/employee.txt");
@@ -189,11 +183,10 @@ int Menu::numPizzas(){
       }
     }
   }
-  // num_pizzas = counter;
-  return counter;    // use this if returning an int value
+  return counter;
 }
 
-void Menu::printMenu(){
+void Menu::printMenu(){   // NOTE: incomplete?
   menu_from_file();
   for(int n=0; n<num_pizzas; n++){
     cout << pizzas[n].getName();//<< " " << pizzas[counter].small_cost << " " << pizzas[counter].medium_cost << " " << pizzas[counter].large_cost << " " << pizzas[counter].num_ingredients;
@@ -211,19 +204,59 @@ string Pizza::getName(){
   return name;
 }
 
-// void Restaurant::setMenu(Pizza a){
-//   pizzas = a;
-// }
+hours Restaurant::getHours(){
+  return *week;
+}
+
+void Restaurant::view_hours(){
+  for(int day=0; day<7; day++){
+    cout << week[day].day << " " << week[day].open_hour << " " << week[day].close_hour << endl;
+  }
+}
+
+void Restaurant::change_hours(){
+  cout << endl << "What day would you like to update hours?" << endl << endl;
+  cout << "Please enter the character that corresponds to the applicable day:" << endl;
+  cout << "     Sunday    (" << week[0].day << ")" << endl;
+  cout << "     Monday    (" << week[1].day << ")" << endl;
+  cout << "     Tuesday   (" << week[2].day << ")" << endl;
+  cout << "     Wednesday (" << week[3].day << ")" << endl;
+  cout << "     Thursday  (" << week[4].day << ")" << endl;
+  cout << "     Friday    (" << week[5].day << ")" << endl;
+  cout << "     Saturday  (" << week[6].day << ")" << endl << endl;
+
+  string day;
+  while(day != week[0].day && day != week[1].day && day != week[2].day && day != week[3].day && day != week[4].day && day != week[5].day && day != week[6].day){
+    cin >> day;
+    char x* = day.c_str();    // NOTE: incomplete; (in-work) unable to make input auto-uppercase
+    std::stringstream ss;
+    ss << x[0];
+    ss >> day;
+    cout << endl;
+  }
+
+  for(int n=0; n<7; n++){
+    if(day == week[n].day){
+      cout << "Restaurant Open: ";
+      cin >> week[n].open_hour;
+      cout << endl << "Restaurant Close: ";
+      cin >> week[n].close_hour;
+    }
+  }
+}
 
 int main(){
   Restaurant Bytes;
   Bytes.load_data();
 
-  // test Login
-  // employee ryandirezze =
-  // Bytes.create_employees(get_numEmployees());
-  // Bytes.getEmployees();
-  Bytes.welcomeScreen();
+  // test getHours & view_hours
+  // Bytes.getHours();
+  Bytes.view_hours();
+  Bytes.change_hours();
+  Bytes.view_hours();
+
+  // test full application
+  // Bytes.welcomeScreen();
   // Bytes.login("3333", "Fringe");
 
   return 0;

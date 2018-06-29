@@ -1,0 +1,8 @@
+/Users/ryandirezze/Documents/GitHub/Pizza-Restaurant/implementation.cpp:231:11: error: expected ';' at end of declaration
+    char x* = day.c_str();
+          ^
+          ;
+/Users/ryandirezze/Documents/GitHub/Pizza-Restaurant/implementation.cpp:233:12: error: subscripted value is not an array, pointer, or vector
+    ss << x[0];
+          ~^~
+2 errors generated.
