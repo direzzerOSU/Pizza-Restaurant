@@ -52,9 +52,10 @@ private:
 public:
   // need to include accessor and mutator functions for each private member
   // need to include constructors, copy constructors, assignment operator overload, and destructors where appropriate
+  Pizza getMenu();
+  Pizza getPizza();
   int numPizzas();
   void menu_from_file();
-  void printMenu();
   Menu search_pizza_by_cost(int upper_bound, std::string size);
   Menu search_pizza_by_ingredients_to_include(std::string* ingredients, int num_ingredients);
   void add_to_menu(Pizza pizza_to_add);
@@ -95,6 +96,8 @@ public:
   void remove_from_menu();
   void view_orders();
   void remove_orders();
+  void printMenu();
+  Menu getMenu();
 
   void view_menu();
   void view_hours();

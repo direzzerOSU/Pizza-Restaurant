@@ -9,6 +9,9 @@ using std::cout;
 using std::endl;
 using std::cin;
 
+char string_to_char(string str);
+string char_to_string(char a);
+
 void Restaurant::welcomeScreen(){
  cout << "\nWelcome to DiGiorno's Pizza!" << endl;
  cout << "Are you a customer (C) or an employee (E)? Or would you like to quite (Q)?" << endl;
@@ -186,13 +189,10 @@ int Menu::numPizzas(){
   return counter;
 }
 
-void Menu::printMenu(){   // NOTE: incomplete?
-  menu_from_file();
-  for(int n=0; n<num_pizzas; n++){
-    cout << pizzas[n].getName();//<< " " << pizzas[counter].small_cost << " " << pizzas[counter].medium_cost << " " << pizzas[counter].large_cost << " " << pizzas[counter].num_ingredients;
-    // for(int n=0; n<pizzas[counter].num_ingredients; n++){
-    //   cout << pizzas[counter].ingredients[n] << " ";
-    // }
+void Restaurant::printMenu(){   // NOTE: incomplete?
+  Menu a = getMenu();
+  for(int n=0; n<menu.numPizzas(); n++){
+    // cout << a.pizzas->name;
   }
 }
 
@@ -226,12 +226,12 @@ void Restaurant::change_hours(){
   cout << "     Saturday  (" << week[6].day << ")" << endl << endl;
 
   string day;
+  char b;
   while(day != week[0].day && day != week[1].day && day != week[2].day && day != week[3].day && day != week[4].day && day != week[5].day && day != week[6].day){
     cin >> day;
-    char x* = day.c_str();    // NOTE: incomplete; (in-work) unable to make input auto-uppercase
-    std::stringstream ss;
-    ss << x[0];
-    ss >> day;
+    b = string_to_char(day);
+    b = toupper(b);
+    day = char_to_string(b);
     cout << endl;
   }
 
@@ -245,15 +245,52 @@ void Restaurant::change_hours(){
   }
 }
 
+char string_to_char(string str){
+  char a[0];
+  strcpy(a, str.c_str());
+  return a[0];
+}
+
+string char_to_string(char a){
+  std::stringstream ss;
+  string b;
+  ss << a;
+  ss >> b;
+  return b;
+}
+
+Menu Restaurant::getMenu(){
+  return menu;
+}
+
+Pizza Menu::getPizzas(){
+  return *pizzas;
+}
+
+Pizza Menu::getMenu(){   // NOTE: identical to the above function (getPizzas())
+  return *pizzas;
+}
+
 int main(){
   Restaurant Bytes;
   Bytes.load_data();
 
+  // string a = "R";
+  // char b;
+  // b = tolower(string_to_char(a));
+  // cout << b << endl;
+  // a = char_to_string(b);
+  // cout << a << endl;
+
   // test getHours & view_hours
   // Bytes.getHours();
-  Bytes.view_hours();
-  Bytes.change_hours();
-  Bytes.view_hours();
+  // Bytes.view_hours();
+  // Bytes.change_hours();
+  // Bytes.view_hours();
+
+  // test add_to_menu()
+  Bytes.printMenu();
+  getPizza();
 
   // test full application
   // Bytes.welcomeScreen();
