@@ -53,7 +53,7 @@ public:
   // need to include accessor and mutator functions for each private member
   // need to include constructors, copy constructors, assignment operator overload, and destructors where appropriate
   Pizza getMenu();
-  Pizza getPizza();
+  Pizza getPizzas();
   int numPizzas();
   void menu_from_file();
   Menu search_pizza_by_cost(int upper_bound, std::string size);

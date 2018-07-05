@@ -32,12 +32,25 @@ void Restaurant::welcomeScreen(){
        cout << endl;
        valid = login(id, password);
      }
-     cout << "What would you like to do? (Please enter the appropriate number)" << endl;
-     cout << "\n  1. Change hours\n  2. View orders\n  3. Remove order\n  4. Add item to menu\n  5. Remove item from menu" << endl << endl;
-     char toDo;
-     cin >> toDo;
-     if(toDo == '1'){
-       // updateHours();
+     while(valid){    // returns to the menu after the employee performs each action
+       cout << "What would you like to do? (Please enter the appropriate number)" << endl;
+       cout << "\n  1. Change hours\n  2. View orders\n  3. Remove order\n  4. Add item to menu\n  5. Remove item from menu" << endl << endl;
+       char toDo;
+       cin >> toDo;
+       toDo = toupper(toDo);
+       if(toDo == 'q'){   // does not work as expected
+         cout << "Are you sure you want to quit? Y/N" << endl;
+         char confirmation;
+         cin >> confirmation;
+         cout << endl;
+         if(confirmation == toupper('y')){
+           break;   // does not exit application like it should... needs fixing
+         }
+       }
+       if(toDo == '1'){
+         change_hours();
+         cout << endl;
+       }
      }
    }
    else if(toupper(menuSelection) == 'C'){
@@ -217,13 +230,13 @@ void Restaurant::view_hours(){
 void Restaurant::change_hours(){
   cout << endl << "What day would you like to update hours?" << endl << endl;
   cout << "Please enter the character that corresponds to the applicable day:" << endl;
-  cout << "     Sunday    (" << week[0].day << ")" << endl;
-  cout << "     Monday    (" << week[1].day << ")" << endl;
-  cout << "     Tuesday   (" << week[2].day << ")" << endl;
-  cout << "     Wednesday (" << week[3].day << ")" << endl;
-  cout << "     Thursday  (" << week[4].day << ")" << endl;
-  cout << "     Friday    (" << week[5].day << ")" << endl;
-  cout << "     Saturday  (" << week[6].day << ")" << endl << endl;
+  cout << "     Sunday    (" << week[0].day << ") | " << week[0].open_hour << "-" << week[0].close_hour << endl;
+  cout << "     Monday    (" << week[1].day << ") | " << week[1].open_hour << "-" << week[1].close_hour << endl;
+  cout << "     Tuesday   (" << week[2].day << ") | " << week[2].open_hour << "-" << week[2].close_hour << endl;
+  cout << "     Wednesday (" << week[3].day << ") | " << week[3].open_hour << "-" << week[3].close_hour << endl;
+  cout << "     Thursday  (" << week[4].day << ") | " << week[4].open_hour << "-" << week[4].close_hour << endl;
+  cout << "     Friday    (" << week[5].day << ") | " << week[5].open_hour << "-" << week[5].close_hour << endl;
+  cout << "     Saturday  (" << week[6].day << ") | " << week[6].open_hour << "-" << week[6].close_hour << endl << endl;
 
   string day;
   char b;
@@ -235,12 +248,13 @@ void Restaurant::change_hours(){
     cout << endl;
   }
 
-  for(int n=0; n<7; n++){
+  for(int n=0; n<7; n++){   // "for" loop compares the user's char (day) entry to day (chars) within the pointer/array
     if(day == week[n].day){
       cout << "Restaurant Open: ";
       cin >> week[n].open_hour;
       cout << endl << "Restaurant Close: ";
       cin >> week[n].close_hour;
+      cout << endl << "New Hours:  " << week[n].open_hour << "-" << week[n].close_hour << endl;
     }
   }
 }
@@ -263,9 +277,9 @@ Menu Restaurant::getMenu(){
   return menu;
 }
 
-Pizza Menu::getPizzas(){
-  return *pizzas;
-}
+// Pizza Menu::getPizzas(){
+//   return *pizzas;
+// }
 
 Pizza Menu::getMenu(){   // NOTE: identical to the above function (getPizzas())
   return *pizzas;
@@ -289,11 +303,10 @@ int main(){
   // Bytes.view_hours();
 
   // test add_to_menu()
-  Bytes.printMenu();
-  getPizza();
+  // Bytes.printMenu();
 
   // test full application
-  // Bytes.welcomeScreen();
+  Bytes.welcomeScreen();
   // Bytes.login("3333", "Fringe");
 
   return 0;
