@@ -38,19 +38,23 @@ void Restaurant::welcomeScreen(){
        char toDo;
        cin >> toDo;
        toDo = toupper(toDo);
-       if(toDo == 'q'){   // does not work as expected
-         cout << "Are you sure you want to quit? Y/N" << endl;
+       if(toDo == 'Q'){
+         cout << endl << "Are you sure you want to quit? Y/N" << endl;
          char confirmation;
          cin >> confirmation;
+         confirmation = toupper(confirmation);
          cout << endl;
-         if(confirmation == toupper('y')){
-           break;   // does not exit application like it should... needs fixing
+         if(confirmation == 'Y'){
+           break;
          }
        }
-       if(toDo == '1'){
+       else if(toDo == '1'){
          change_hours();
          cout << endl;
        }
+       // else if(toDo == '2'){
+       //   // view orders
+       // }
      }
    }
    else if(toupper(menuSelection) == 'C'){
@@ -284,6 +288,12 @@ Menu Restaurant::getMenu(){
 Pizza Menu::getMenu(){   // NOTE: identical to the above function (getPizzas())
   return *pizzas;
 }
+
+// Restaurant::orders_from_file(){
+//   ifstream inputFile;
+//   open.inputFile("/Users/ryandirezze/Documents/GitHub/Pizza-Restaurant/orders.txt");
+//
+// }
 
 int main(){
   Restaurant Bytes;
